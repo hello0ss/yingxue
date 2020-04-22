@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ss.dao.ClassesDAO">
+
+    <!--分页展示-->
+    <select id="showFatherClasses" resultType="Classes">
+    select id,classname,level,parentlevel from classes
+    where level=1
+    limit #{start},#{rows}
+  </select>
+    <select id="showSonClasses" resultType="Classes">
+    select id,classname,level,parentlevel from classes
+    where level=2 and parentlevel=#{id}
+    limit #{start},#{rows}
+  </select>
+    <!--总条数-->
+    <select id="conterFather" resultType="Integer">
+    select count(id) from classes where level=1
+  </select>
+    <select id="conterSon" resultType="Integer">
+    select count(id) from classes where level=2 and parentlevel=#{id}
+  </select>
+    <!--添加-->
+    <insert id="insertClasses" parameterType="Classes">
+    insert into classes values (#{id},#{classname},#{level},#{parentlevel})
+  </insert>
+    <!--删除-->
+    <delete id="deleteClasses" parameterType="String">
+    delete from classes where id=#{id}
+  </delete>
+    <select id="showClasses" resultType="Classes">
+    select id,classname,level,parentlevel from classes
+    where id=#{id}
+  </select>
+    <!--修改-->
+    <update id="updateClasses" parameterType="Classes">
+        update classes
+        <set>
+            <if test="classname != null">
+                classname = #{classname},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="parentlevel != null">
+                parentlevel = #{parentlevel}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

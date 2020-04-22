@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.ss.PoiTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 2.194 s <<< FAILURE! - in com.ss.PoiTest
+PoiImport(com.ss.PoiTest)  Time elapsed: 0.557 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.ss.PoiTest.PoiImport(PoiTest.java:177)
+

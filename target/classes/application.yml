@@ -1,0 +1,49 @@
+server:
+  port: 8989
+  servlet:
+    context-path: /yingxue
+    jsp:
+      init-parameters:
+        development: true
+
+spring:
+  #数据源
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ssmysql
+    username: root
+    password: root
+
+  #视图解析器
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+
+  #上传下载大小设置
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 300MB
+
+  #
+  redis:
+    host: 192.168.226.8 #ip地址
+    port: 6666 #端口号
+    database: 0 #操作的库
+
+  #
+  data:
+    elasticsearch:
+      cluster-nodes: 192.168.226.9:9300
+
+
+mybatis:
+  type-aliases-package: com.ss.entity
+  mapper-locations: classpath:com/ss/mapper/*Mapper.xml
+
+#日志 运行
+logging:
+ level:
+    root: info
+    com.ss.dao: debug

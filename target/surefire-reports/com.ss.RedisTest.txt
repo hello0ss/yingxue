@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Test set: com.ss.RedisTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 28.009 s <<< FAILURE! - in com.ss.RedisTest
+testQuery(com.ss.RedisTest)  Time elapsed: 15.014 s  <<< ERROR!
+org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis; nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to 192.168.226.8:6666
+	at com.ss.RedisTest.testQuery(RedisTest.java:27)
+Caused by: io.lettuce.core.RedisConnectionException: Unable to connect to 192.168.226.8:6666
+	at com.ss.RedisTest.testQuery(RedisTest.java:27)
+Caused by: io.netty.channel.ConnectTimeoutException: connection timed out: /192.168.226.8:6666
+

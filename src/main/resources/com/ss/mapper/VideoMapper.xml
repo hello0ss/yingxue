@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ss.dao.VideoDAO">
+
+    <resultMap id="VideoResultMap" type="Video">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="brief" property="brief"/>
+        <result column="vipath" property="vipath"/>
+        <result column="imgpath" property="imgpath"/>
+        <result column="publishday" property="publishday"/>
+        <result column="classid" property="classid"/>
+        <result column="groupid" property="groupid"/>
+        <result column="userid" property="userid"/>
+        <association property="classes" javaType="Classes">
+            <id column="id" property="id"/>
+            <result column="classname" property="classname"/>
+            <result column="level" property="level"/>
+            <result column="parentlevel" property="parentlevel"/>
+        </association>
+    </resultMap>
+
+    <!--分页展示-->
+    <select id="showAllVideo" resultMap="VideoResultMap">
+    select a.id,a.title,a.brief,a.vipath,a.imgpath,a.publishday,a.classid,a.groupid,a.userid
+            ,b.id,b.classname,b.level,b.parentlevel from video a
+    left join classes b
+    on b.id = a.classid
+    limit #{start},#{rows}
+  </select>
+    <!--总条数-->
+    <select id="conter" resultType="Integer">
+    select count(id) from video
+  </select>
+    <!--添加-->
+    <insert id="insertVideo" parameterType="Video">
+    insert into video values (#{id},#{title},#{brief},#{vipath},#{imgpath},#{publishday},#{classid},#{groupid},#{userid})
+  </insert>
+    <!--删除-->
+    <delete id="deleteVideo" parameterType="String">
+    delete from video where id=#{id}
+  </delete>
+    <!--修改-->
+    <!--分页展示-->
+    <select id="showVideo" resultType="Video">
+    select id,title,brief,vipath,imgpath,publishday,classid,groupid,userid from video
+    where id=#{id}
+  </select>
+    <update id="updateVideo" parameterType="Video">
+        update video
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="brief != null">
+                brief = #{brief},
+            </if>
+            <if test="vipath != null">
+                vipath = #{vipath},
+            </if>
+            <if test="imgpath != null">
+                imgpath = #{imgpath},
+            </if>
+            <if test="publishday != null">
+                publishday = #{publishday},
+            </if>
+            <if test="classid != null">
+                classid = #{classid},
+            </if>
+            <if test="groupid != null">
+                groupid = #{groupid},
+            </if>
+            <if test="userid != null">
+                userid = #{userid}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    
+    
+    
+    <select id="queryByReleaseTime" resultType="com.ss.po.VideoPo">
+        select a.id,a.title,a.imgpath,a.vipath,a.publishday,a.brief,b.classname,c.img from video a
+        left join classes b
+          on a.classid = b.id
+        left join users c
+          on a.userid = c.id
+        order by a.publishday desc
+    </select>
+    
+    
+</mapper>

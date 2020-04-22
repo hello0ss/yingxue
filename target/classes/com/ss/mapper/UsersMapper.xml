@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ss.dao.UsersDAO">
+  <resultMap id="BaseResultMap" type="com.ss.entity.Users">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
+    <result column="wechat" jdbcType="VARCHAR" property="wechat" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="registerday" jdbcType="TIMESTAMP" property="registerday" />
+  </resultMap>
+
+  <!--分页展示-->
+  <select id="showAllUsers" resultType="Users">
+    select id,username,phone,img,sex,sign,city,wechat,status,registerday from users
+    limit #{start},#{rows}
+  </select>
+  <!--总条数-->
+  <select id="conter" resultType="Integer">
+    select count(id) from users
+  </select>
+  <!--添加-->
+  <insert id="insertUsers" parameterType="Users">
+    insert into users values (#{id},#{username},#{phone},#{img},#{sex},#{sign},#{city},#{wechat},#{status},#{registerday})
+  </insert>
+  <!--删除-->
+  <delete id="deleteUsers" parameterType="String">
+    delete from users where id=#{id}
+  </delete>
+  <!--修改-->
+  <select id="update" resultType="Users">
+    select id,username,phone,img,sex,sign,city,wechat,status,registerday from users
+    where id=#{id}
+  </select>
+  <update id="updateUsers" parameterType="Users">
+    update users
+    <set>
+      <if test="username != null">
+        username = #{username},
+      </if>
+      <if test="phone != null">
+        phone = #{phone},
+      </if>
+      <if test="img != null">
+        img = #{img},
+      </if>
+      <if test="sex != null">
+        sex = #{sex},
+      </if>
+      <if test="sign != null">
+        sign = #{sign},
+      </if>
+      <if test="city != null">
+        city = #{city},
+      </if>
+      <if test="wechat != null">
+        wechat = #{wechat},
+      </if>
+      <if test="status != null">
+        status = #{status},
+      </if>
+      <if test="registerday != null">
+        registerday = #{registerday}
+      </if>
+    </set>
+    where id=#{id}
+  </update>
+
+
+  <!--导出信息进Excel表格-->
+  <select id="queryAllUsers" resultType="Users">
+    select id,username,phone,img,sex,sign,city,wechat,status,registerday from users
+  </select>
+
+  <!--用户注册性别统计-->
+  <select id="queryTimeUsers" resultType="Integer">
+    select count(id) from users
+    where sex = #{sex} and date_format(registerday,'%m') = #{month}
+  </select>
+
+  <!--用户注册地址分布-->
+  <select id="queryCityUsers" resultType="City">
+    select city name,count(id) value from users
+    where sex = #{sex}
+    group by city
+  </select>
+  
+</mapper>
